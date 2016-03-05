@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         String test = String.valueOf(parent.getItemAtPosition(position));
                         numTimesSelected[position] += 1;
                         addedItems.add(test + ": " + numTimesSelected[position]);
-                        //addedAdapter.notifyDataSetChanged();
+                        addedListView.setAdapter(addedAdapter);
 
 
                         TextView addText = (TextView) findViewById(R.id.textView);
