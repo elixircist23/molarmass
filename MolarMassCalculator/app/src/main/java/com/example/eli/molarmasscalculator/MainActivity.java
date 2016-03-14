@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
                                     "Fl", "Uup", "Lv", "UUs", "Uuo"};
 
         //array of all masses to match elements
-        final Double[] massesArray = {1.0079, 4.002602, 6.941, 9.012182, 10.811, 12.0107, 14.00674,15.9994,
-                18.9984032, 20.1797, 22.989770, 24.3050, 26.981538, 28.0855, 30.973761, 32.065, 35.453, 39.948,
+        final Double[] massesArray = {1.0079, 4.002602, 6.941, 9.01218, 10.811, 12.0107, 14.00674, 15.9994,
+                18.99840, 20.1797, 22.989770, 24.3050, 26.98153, 28.0855, 30.973761, 32.065, 35.453, 39.948,
                 39.0983, 40.078, 44.9559, 47.867, 50.9415, 51.9961, 54.938, 55.845, 58.9332, 58.6934, 63.546,
                 65.39, 69.723, 72.64, 74.9216, 78.96, 79.904, 83.8, 85.4678, 87.62, 88.9059, 91.224, 92.9064,
                 95.94, 98.0, 101.07, 102.9055, 106.42, 107.8682, 112.411, 114.818, 118.71, 121.76, 127.6,
@@ -76,12 +76,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         //get the position of the click on listview
-                            //set the text to the elements name
-                            //make new Element object that holds element and mass
+                        //set the text to the elements name
+                        //make new Element object that holds element and mass
                         String clickedElement = String.valueOf(parent.getItemAtPosition(position));
                         Element clickedElementState = new Element(clickedElement, massesArray[position]);
                         TextView addText = (TextView) findViewById(R.id.textView);
                         addText.setText(clickedElementState.getE());
+
 
                         //setting total mass text
                         addText2.setText(String.format("Total: %.5f", totalMass.getM()));
@@ -90,14 +91,14 @@ public class MainActivity extends AppCompatActivity {
                         //updating the list so clear the array
                         secondArrayState.clear();
                         secondArrayString.clear();
-                        if(map.containsKey(clickedElementState.getE())){
+                        if (map.containsKey(clickedElementState.getE())) {
 
                             //put the new updated value of the item in the map
                             map.put(clickedElementState.getE(), map.get(clickedElementState.getE()) + 1);
 
                         }
                         //if its not already in the list, add a new one
-                        else{
+                        else {
                             map.put(clickedElementState.getE(), 1);
                         }
 
@@ -108,10 +109,24 @@ public class MainActivity extends AppCompatActivity {
                         //update listview
                         listView2.invalidateViews();
                         //update secondArrayState
-                        for(String i : map.keySet()){
-                            secondArrayState.add(new Element(i, massesArray[position]));
+                        for (String i : map.keySet()) {
+
+                            String name = i;
+                            int index = -1;
+                            for (int j = 0; j < elementsArray.length; j++) {
+                                if (elementsArray[j].equals(name)) {
+                                    index = j;
+                                    break;
+                                }
+                            }
+
+                            secondArrayState.add(new Element(i, massesArray[index]));
                             secondArrayString.add(i + map.get(i));
                         }
+                        listView2.invalidateViews();
+
+
+
                     }
                 }
         );
@@ -123,8 +138,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
 
+
                         //get clicked item from secondArray
                         Element clickedElement = secondArrayState.get(position);
+
+
 
                         //updating mass variable
                         totalMass.setM(totalMass.getM() - clickedElement.getM());
@@ -135,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
                             //if key-1 = 0, then remove it from the list
                         if((map.get(clickedElement.getE()) - 1 == 0)) {
                             map.remove(clickedElement.getE());
-                            secondArrayString.remove(position);
-                            secondArrayState.remove(position);
                         }
                         //removing if = 0
                         else{
@@ -153,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //we have to find the current elements mass somehow
                                 //a little dirty looking but alright
+
                             String name = i;
                             int index = -1;
                             for (int j=0; j < elementsArray.length; j++) {
@@ -161,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 }
                             }
+                            listView2.invalidateViews();
 
                             //updating arrays
                             secondArrayString.add(i + map.get(i));
@@ -171,9 +189,10 @@ public class MainActivity extends AppCompatActivity {
                         //notify listview of update
                         listView2.invalidateViews();
 
+
                     }
 
-                    ;
+
                 }
         );
 
