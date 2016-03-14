@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Molar Mass Calculator</string>
     <string name="textElements">Choose Element</string>
+    <string name="mass">Total: </string>
 </resources>
